@@ -1,5 +1,7 @@
-#include "Engine.h"
 #include <iostream>
+#include "Engine.h"
+#include "Level/Level.h"
+
 //2가지 추가
 // 윈도우
 //단순 입력 처리 컨트롤러<키보드>
@@ -13,7 +15,12 @@ Engine::Engine()
 
 Engine::~Engine()
 {
-
+	//레벨 삭제
+	if (mainLevel)
+	{
+		delete mainLevel;
+		mainLevel = nullptr;
+	}
 }
 
 void Engine::Run()
@@ -63,14 +70,51 @@ void Engine::Run()
 		//고정 프레임
 		if (deltaTime >= oneFrameTime)
 		{
-			Update(deltaTime);
+			BeginPlay();
+			Tick(deltaTime);
 			Render();
 
 			//시간 업데이트
 			previousTime = currentTime;
+
+			//현재 프레임의 입력을 기록
+			for (int ix = 0; ix < 255; ++ix)
+			{
+				keyStates[ix].previouseKeyDown 
+					= keyStates[ix].isKeyDown;
+			}
 		}
 
 	}
+}
+
+void Engine::AddLevel(Level* newLevel)
+{
+	//기존에 있던 레벨은 제거
+	if (mainLevel)
+	{
+		delete mainLevel;
+	}
+
+	mainLevel = newLevel;
+}
+
+bool Engine::GetKey(int KeyCode)
+{
+	return keyStates[KeyCode].isKeyDown;
+
+}
+
+bool Engine::GetKeyDown(int KeyCode)
+{
+	return !keyStates[KeyCode].previouseKeyDown
+		&& keyStates[KeyCode].isKeyDown;
+}
+
+bool Engine::GetKeyUp(int KeyCode)
+{
+	return keyStates[KeyCode].previouseKeyDown
+		&& !keyStates[KeyCode].isKeyDown;
 }
 
 void Engine::Quit()
@@ -80,22 +124,63 @@ void Engine::Quit()
 
 void Engine::ProcessInput()
 {
+	//키 입력 확인
+	for (int ix = 0; ix < 255; ++ix)
+	{
+		keyStates[ix].isKeyDown 
+			= GetAsyncKeyState(ix) && 0x8000;
+	}
+
 	//ESC키 눌림 확인
-	if (GetAsyncKeyState(VK_ESCAPE) && 0x8000)
+	//if (GetAsyncKeyState(VK_ESCAPE) && 0x8000)
+	//{
+	//	Quit();
+	//}
+}
+
+
+void Engine::BeginPlay()
+{
+	if (mainLevel)
+	{
+		mainLevel->BeginPlay();
+	}
+}
+void Engine::Tick(float deltaTime)
+{
+	//std::cout 
+	//	<< "DeltaTime : " << deltaTime 
+	//	<< ", FPS: "<< (1.0f/deltaTime)
+	//	<< "\n";
+
+	//if (GetKeyDown('A'))
+	//{
+	//	std::cout << "KeyDown\n";
+	//}
+	//if (GetKey('A'))
+	//{
+	//	std::cout << "Key\n";
+	//}
+	//if (GetKeyUp('A'))
+	//{
+	//	std::cout << "KeyUp\n";
+	//}
+
+	//레벨 업데이트
+	if (mainLevel)
+	{
+		mainLevel->Tick(deltaTime);
+	}
+	if (GetKeyDown(VK_ESCAPE))
 	{
 		Quit();
 	}
 }
 
-void Engine::Update(float deltaTime)
-{
-	std::cout 
-		<< "DeltaTime : " << deltaTime 
-		<< ", FPS: "<< (1.0f/deltaTime)
-		<< "\n";
-}
-
 void Engine::Render()
 {
-	
+	if (mainLevel)
+	{
+		mainLevel->Render();
+	}
 }
