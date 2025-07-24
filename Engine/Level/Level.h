@@ -3,10 +3,12 @@
 #include <vector> //크기가 알아서 변경되는 동적 배열
 //List로 할려했는데 이미 있어서 어쩔수 없이 vector로 했다고함
 //즉 수학의 벡터가 아님!
+#include "RTTI.h"
 class Actor;
 
-class Engine_API Level
+class Engine_API Level : public RTTI
 {
+	RTTI_DECLARATIONS(Level, RTTI)
 public:
 	Level();
 	virtual ~Level();
