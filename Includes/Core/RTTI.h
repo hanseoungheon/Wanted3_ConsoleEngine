@@ -38,6 +38,7 @@ public:
 	}
 };
 
+
 #define RTTI_DECLARATIONS(Type, ParentType)												\
 public:																					\
 	using super = ParentType;														\

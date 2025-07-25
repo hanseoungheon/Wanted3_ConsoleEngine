@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Engine.h"
 #include "Level/Level.h"
+#include <Windows.h>
 
 //2가지 추가
 // 윈도우
@@ -8,9 +9,24 @@
 //시간계산용 타이머
 
 
+Engine* Engine::instance = nullptr;
+
 Engine::Engine()
 {
+	instance = this;
 
+	//콘솔 커서 끄기
+
+
+	//HANDLE
+	CONSOLE_CURSOR_INFO info;
+	info.bVisible = false;
+	info.dwSize = 1;
+
+	SetConsoleCursorInfo(
+		GetStdHandle(STD_OUTPUT_HANDLE),
+		&info
+	);
 }
 
 Engine::~Engine()
@@ -60,10 +76,10 @@ void Engine::Run()
 
 
 		//프레임 시간
-		float deltaTime = 
+		float deltaTime =
 			(currentTime.QuadPart - previousTime.QuadPart)
 			/ (float)freqeuncy.QuadPart;
-		
+
 		//입력은 최대한 빨리
 		ProcessInput();
 
@@ -80,12 +96,19 @@ void Engine::Run()
 			//현재 프레임의 입력을 기록
 			for (int ix = 0; ix < 255; ++ix)
 			{
-				keyStates[ix].previouseKeyDown 
+				keyStates[ix].previouseKeyDown
 					= keyStates[ix].isKeyDown;
 			}
 		}
 
 	}
+
+	//정리
+	//모든 텍스트 색상 변경
+	SetConsoleTextAttribute(
+		GetStdHandle(STD_OUTPUT_HANDLE),
+		FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED // = 7
+	);
 }
 
 void Engine::AddLevel(Level* newLevel)
@@ -120,6 +143,11 @@ bool Engine::GetKeyUp(int KeyCode)
 void Engine::Quit()
 {
 	isQuit = true;
+}
+
+Engine& Engine::Get()
+{
+	return *instance;
 }
 
 void Engine::ProcessInput()
@@ -171,14 +199,20 @@ void Engine::Tick(float deltaTime)
 	{
 		mainLevel->Tick(deltaTime);
 	}
-	if (GetKeyDown(VK_ESCAPE))
-	{
-		Quit();
-	}
+
+	//if (GetKeyDown(VK_ESCAPE))
+	//{
+	//	Quit();
+	//}
 }
 
 void Engine::Render()
 {
+	SetConsoleTextAttribute(
+		GetStdHandle(STD_OUTPUT_HANDLE),
+		FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED // = 7
+	);
+
 	if (mainLevel)
 	{
 		mainLevel->Render();

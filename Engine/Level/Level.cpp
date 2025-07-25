@@ -7,7 +7,12 @@ Level::Level()
 }
 Level::~Level()
 {
+	for (Actor* actor : actors)
+	{
+		delete actor;
+	}
 
+	actors.clear();
 }
 
 // 레벨에 액터를 추가할 때 사용
