@@ -10,7 +10,7 @@ public:
 
 	Vector2 operator+(const Vector2& other) const;
 	Vector2 operator-(const Vector2& other) const;
-
+	bool operator==(const Vector2& other) const;
 	//문자열로 출력
 	const char* ToString();
 
@@ -21,8 +21,10 @@ public:
 
 public:
 	// X/Y좌표
-	float x = 0;
-	float y = 0;
+	//float x = 0;
+	//float y = 0;
+	int x = 0;
+	int y = 0;
 
 private:
 	char* value = nullptr;

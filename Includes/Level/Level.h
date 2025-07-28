@@ -20,6 +20,10 @@ public:
 	virtual void BeginPlay();
 	virtual void Tick(float deltaTime);
 	virtual void Render();
+
+private:
+	void SortActorsBySortingOrder();
+
 private:
 	std::vector<Actor*> actors;
 };

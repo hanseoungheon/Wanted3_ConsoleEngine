@@ -61,9 +61,55 @@ void Level::Tick(float deltaTime)
 
 void Level::Render()
 {
+	//그리기 전에 정렬 순서 기준으로 재배치(정렬).
+	SortActorsBySortingOrder();
+
 	for (Actor* actor : actors)
 	{
+		Actor* searchedActor = nullptr;
+		//검사 (같은 위치에 정렬 순서 높은 액터가 있는지 확인!)
+		for (Actor* const otherActor : actors)
+		{
+			//같은 액터 무시
+			if (actor == otherActor)
+			{
+				continue;
+			}
+
+			if (actor->Position() == otherActor->Position())
+			{
+				// 정렬 순서 비교 후 액터 저장
+				if (actor->sortingOrder < otherActor->sortingOrder)
+				{
+					//저장 및 루프 종료
+					searchedActor = otherActor;
+					break;
+				}
+			}
+		}
+
+		//어떤 액터와 같은 위치에 정렬 순서가 더 높은 액터가 있으면,
+		//그리지 않고 건너뛰기
+		if (searchedActor)
+		{
+			continue;
+		}
+
+		//드로우콜
 		actor->Render();
 	}
+}
 
+void Level::SortActorsBySortingOrder()
+{
+	for (int ix = 0; ix < (int)actors.size(); ix++)
+	{
+		for (int jx = 0; jx < (int)actors.size()-1; jx++)
+		{
+			if (actors[jx]->sortingOrder < actors[jx + 1]->sortingOrder)
+			{
+				std::swap(actors[jx], actors[jx + 1]);
+			}
+		}
+	}
 }

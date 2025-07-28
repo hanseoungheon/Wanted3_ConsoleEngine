@@ -89,12 +89,18 @@ void SokobanLevel::ReadMapFile(const char * filename)
 			break;
 
 		case 'p':
-			//Player액터 생성
+			//움직이는 객체이기 때문에 땅도 같이 생성
+			AddActor(new Ground(position));
+
+			//__Player액터 생성
 			AddActor(new Player(position));
 			//std::cout << "p";
 			break;
 
 		case 'b':
+			//움직이는 객체이기 때문에 땅도 같이 생성
+			AddActor(new Ground(position));
+
 			AddActor(new Box(position));
 			//std::cout << "b";
 			break;
