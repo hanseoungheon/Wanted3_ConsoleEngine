@@ -9,9 +9,17 @@ Level::~Level()
 {
 	for (Actor* actor : actors)
 	{
-		delete actor;
+		////null 확인 후 액터 제거
+		//if (actor)
+		//{
+		//	//삭제 및 메모리 정리.
+		//	delete actor;
+		//	actor = nullptr;
+		//}
+		SafeDelete(actor);
 	}
 
+	//std::vector 정리
 	actors.clear();
 }
 

@@ -124,6 +124,7 @@ void Engine::AddLevel(Level* newLevel)
 
 bool Engine::GetKey(int KeyCode)
 {
+	//auto& instance =Engine().
 	return keyStates[KeyCode].isKeyDown;
 
 }

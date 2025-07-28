@@ -33,14 +33,14 @@ void TestActor::Tick(float deltaTime)
 	if (Engine::Get().GetKey(VK_UP) && Position().y > 0)
 	{
 		Vector2 position = Position();
-		position.y -= 1;
+		position.y -= 0.5;
 		SetPosition(position);
 	}
 
 	if (Engine::Get().GetKey(VK_DOWN) && Position().y <= 10)
 	{
 		Vector2 position = Position();
-		position.y += 1;
+		position.y += 0.5;
 		SetPosition(position);
 	}
 

@@ -21,8 +21,8 @@ public:
 
 public:
 	// X/YÁÂÇ¥
-	int x = 0;
-	int y = 0;
+	float x = 0;
+	float y = 0;
 
 private:
 	char* value = nullptr;

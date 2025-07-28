@@ -10,7 +10,6 @@
 //엔진의 이벤트 함수 호출.
 //BeginPlay/Tick/Draw.
 
-
 //색상
 enum class Color : int
 {
@@ -26,7 +25,8 @@ class Engine_API Actor : public RTTI
 {
 	RTTI_DECLARATIONS(Actor, RTTI);
 public:
-	Actor(const char image = ' ',Color color = Color::White);
+	Actor(const char image = ' ',Color color = Color::White,
+		const Vector2& position = Vector2::Zero);
 	virtual ~Actor();
 
 	//이벤트 함수
