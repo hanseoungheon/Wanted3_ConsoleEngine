@@ -19,6 +19,8 @@ public:
 	//	const Vector2& newPosition) override;
 	//bool test = false;
 private:
+	virtual void Render() override;
+
 	//맵파일을 읽어서 게임 객체 생성하는 함수
 	void ReadMapFile(const char * filename);
 

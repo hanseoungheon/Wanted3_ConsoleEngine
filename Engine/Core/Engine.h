@@ -10,7 +10,7 @@ class Engine_API Engine
 public:
 	Engine();
 	
-	~Engine();
+	virtual ~Engine();
 
 	//엔진 실행함수
 	void Run();
@@ -21,7 +21,7 @@ public:
 
 
 	//메모리 해제 함수
-	void CleanUp();
+	virtual void CleanUp();
 
 	//엔진 종료 함수
 	void Quit();
@@ -30,12 +30,11 @@ public:
 	static Engine& Get();
 
 private:
-
-
 	void BeginPlay();
 	void Tick(float deltaTime = 0.0f);
 	void Render();
-private:
+
+protected:
 	//엔진 종료 플래그
 	bool isQuit = false;
 

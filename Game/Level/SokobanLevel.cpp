@@ -9,9 +9,25 @@
 #include "Actor/Ground.h"
 #include "Actor/Target.h"
 
+#include "Utils/Utils.h"
+
 SokobanLevel::SokobanLevel()
 {
 	ReadMapFile("Map.txt");
+}
+
+void SokobanLevel::Render()
+{
+	super::Render();
+	if (isGameClear)
+	{
+		Utils::SetConsolePosition({ 30,0 });
+		Utils::SetConsoleTextColor(
+			static_cast<WORD>(Color::White)
+		);
+
+		std::cout << "Game Clear!";
+	}
 }
 
 void SokobanLevel::ReadMapFile(const char * filename)
@@ -77,6 +93,7 @@ void SokobanLevel::ReadMapFile(const char * filename)
 		switch (mapChracater)
 		{
 		case '#':
+		case '1':
 			AddActor(new Wall(position));
 			//std::cout << "#";
 			break;
@@ -131,19 +148,22 @@ bool SokobanLevel::CheckGameClear()
 	//박스가 타겟 위치에 모두 옮겨졌는지 확인.
 	int currentScore = 0;
 
-	std::vector<Target*> targetActors;
-	std::vector<Box*> boxActors;
+	std::vector<Actor*> targetActors; //형변환 에러 방지로 Actor로 설정
+	std::vector<Actor*> boxActors;
 	
+	//맵에서 액터 찾기
 	for (Actor* const actor : actors)
 	{
+		//찾은 액터들 중에서 Box 타입의 액터들만 조건문부여해서 코드 실행
 		if (actor->As<Box>())
 		{
-			boxActors.emplace_back(actor);
+			boxActors.emplace_back(actor); //vector문자열에 요소 추가
 		}
 
+		//BOx가 아니라면 Target 타입의 액터들만 조건문부여해서 코드 실행
 		else if (actor->As<Target>())
 		{
-			targetActors.emplace_back(actor);
+			targetActors.emplace_back(actor); //vector문자열에 요소 추가
 		}
 	}
 
@@ -174,13 +194,14 @@ bool SokobanLevel::CanPlayerMove(
 		return false;
 	}
 
-	std::vector<Box*> boxActors;
+	std::vector<Box*> boxActors; //box액터 vector배열 생성
 
+	//맵 안에서 액터들 찾기
 	for (Actor* const actor : actors)
 	{
-		Box* box = actor->As<Box>();
+		Box* box = actor->As<Box>(); //임의의 객체 Box형 생성
 
-		if (box)
+		if (box) 
 		{
 			boxActors.emplace_back(box);
 		}
