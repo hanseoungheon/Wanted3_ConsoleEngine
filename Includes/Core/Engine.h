@@ -1,5 +1,6 @@
 #pragma once
 #include "Core.h"
+#include "Input.h"
 #include <Windows.h>
 
 /*
@@ -16,15 +17,6 @@
 class Level;
 class Engine_API Engine
 {
-	//키입력 확인을 위한 구조체 선언
-	struct KeyState
-	{
-		//현재 프레임에 키가 눌렸는지 여부
-		bool isKeyDown = false;
-
-		//이전 프레임에 키가 눌렸는지 여부
-		bool previouseKeyDown = false;
-	};
 public:
 	Engine();
 	
@@ -36,10 +28,10 @@ public:
 	//레벨 추가 함수
 	void AddLevel(Level* newLevel);
 
-	//키 확인 함수
-	bool GetKey(int KeyCode);
-	bool GetKeyDown(int KeyCode);
-	bool GetKeyUp(int KeyCode);
+
+
+	//메모리 해제 함수
+	void CleanUp();
 
 	//엔진 종료 함수
 	void Quit();
@@ -48,7 +40,7 @@ public:
 	static Engine& Get();
 
 private:
-	void ProcessInput();
+
 
 	void BeginPlay();
 	void Tick(float deltaTime = 0.0f);
@@ -57,11 +49,9 @@ private:
 	//엔진 종료 플래그
 	bool isQuit = false;
 
-	//키 입력 정보 관리 변수
-	KeyState keyStates[255] = {};
-
 	Level* mainLevel = nullptr;
 
+	Input input;
 	//싱글톤 변수
 	static Engine* instance;
 

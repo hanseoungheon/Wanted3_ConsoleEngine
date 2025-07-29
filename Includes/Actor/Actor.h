@@ -4,6 +4,7 @@
 #include "Math/Vector2.h"
 #include "RTTI.h"
 #include <Windows.h>
+//#include "Input.h"
 //물체 뭘 해야할까?를 정의.
 //위치 점령.
 //콘솔 창에 그리기(How?What?).
