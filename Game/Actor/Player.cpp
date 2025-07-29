@@ -49,6 +49,7 @@ void Player::Tick(float deltaTime)
 	//입력 로직 - 이동하기 전에 위치로 갈 수 있는지 판단 후 이동
 	if (Input::Get().GetKeyDown(VK_RIGHT))
 	{
+		
 		if (canPlayerMoveInterface->CanPlayerMove(
 			Position(),
 			Vector2(Position().x + 1, Position().y)))
@@ -62,22 +63,43 @@ void Player::Tick(float deltaTime)
 
 	if (Input::Get().GetKeyDown(VK_LEFT))
 	{
-		Vector2 position = Position();
-		position.x -= 1;
-		SetPosition(position);
+	/*	bool result = canPlayerMoveInterface->CanPlayerMove(
+			Position(),
+			Vector2(Position().x - 1, Position().y)
+			);*/
+
+		if (canPlayerMoveInterface->CanPlayerMove(
+			Position(),
+			Vector2(Position().x - 1, Position().y)))
+		{
+			Vector2 position = Position();
+			position.x -= 1;
+			SetPosition(position);
+		}
+
 	}
 
 	if (Input::Get().GetKeyDown(VK_UP))
 	{
-		Vector2 position = Position();
-		position.y -= 1;
-		SetPosition(position);
+		if (canPlayerMoveInterface->CanPlayerMove(
+			Position(),
+			Vector2(Position().x, Position().y-1)))
+		{
+			Vector2 position = Position();
+			position.y -= 1;
+			SetPosition(position);
+		}
 	}
 
 	if (Input::Get().GetKeyDown(VK_DOWN))
 	{
-		Vector2 position = Position();
-		position.y += 1;
-		SetPosition(position);
+		if (canPlayerMoveInterface->CanPlayerMove(
+			Position(),
+			Vector2(Position().x, Position().y+1)))
+		{
+			Vector2 position = Position();
+			position.y += 1;
+			SetPosition(position);
+		}
 	}
 }
