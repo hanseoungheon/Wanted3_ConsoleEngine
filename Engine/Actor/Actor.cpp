@@ -1,6 +1,7 @@
 #include "Actor.h"
 #include <Windows.h>
 #include <iostream>
+#include "Engine.h"
 #include "Utils/Utils.h"
 
 Actor::Actor(const char image,Color color, const Vector2& position) : image(image), color(color) , position(position)
@@ -75,4 +76,19 @@ Vector2 Actor::Position() const
 void Actor::SetSortingOrder(unsigned int sortingOrder)
 {
 	this->sortingOrder = sortingOrder;
+}
+
+void Actor::SetOwner(Level* newOwner)
+{
+	owner = newOwner;
+}
+
+Level* Actor::GetOwner()
+{
+	return owner;
+}
+
+void Actor::QuitGame()
+{
+	Engine::Get().Quit();
 }

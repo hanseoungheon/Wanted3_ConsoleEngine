@@ -9,7 +9,6 @@
 #include "Actor/Ground.h"
 #include "Actor/Target.h"
 
-
 SokobanLevel::SokobanLevel()
 {
 	ReadMapFile("Map.txt");
@@ -125,4 +124,11 @@ void SokobanLevel::ReadMapFile(const char * filename)
 	//	char buffer[256];
 
 	//}
+}
+
+bool SokobanLevel::CanPlayerMove(
+	const Vector2& playerPosition, 
+	const Vector2& newPosition)
+{
+	return false;
 }

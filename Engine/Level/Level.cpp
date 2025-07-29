@@ -34,6 +34,9 @@ void Level::AddActor(Actor* newActor)
 
 	actors.emplace_back(newActor);
 	//actors.push_back(newActor);
+
+	//오너십 설정
+	newActor->SetOwner(this);
 }
 
 // 엔진 이벤트 함수

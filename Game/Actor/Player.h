@@ -1,13 +1,17 @@
 #pragma once
 #include "Actor/Actor.h"
 
+//ICanPlayerMove canPlayerMoveInterface;
+
 class Player : public Actor
 {
 	RTTI_DECLARATIONS(Player, Actor)
 public:
 	Player(const Vector2& position);
 
+	virtual void BeginPlay() override;
 	virtual void Tick(float deltaTime) override;
 
-
+private:
+	class ICanPlayerMove* canPlayerMoveInterface = nullptr;
 };
